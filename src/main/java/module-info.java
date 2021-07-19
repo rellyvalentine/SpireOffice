@@ -7,7 +7,9 @@ module SpireOffice {
     requires java.xml.bind;
     requires java.sql;
 
-    requires spire.doc.free;
+    requires spire.office.free;
+//    requires spire.doc.free;
+//    requires spire.presentation.free;
 
     opens sample;
 }

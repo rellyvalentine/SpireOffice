@@ -61,9 +61,15 @@
 
         <dependency>
             <groupId>e-iceblue</groupId>
-            <artifactId>spire.doc.free</artifactId>
+            <artifactId>spire.office.free</artifactId>
             <version>3.9.0</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>e-iceblue</groupId>-->
+<!--            <artifactId>spire.presentation.free</artifactId>-->
+<!--            <version>3.9.0</version>-->
+<!--            -->
+<!--        </dependency>-->
 
     </dependencies>
 
