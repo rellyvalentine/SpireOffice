@@ -9,7 +9,6 @@ import com.spire.doc.fields.DocPicture;
 import com.spire.doc.fields.Field;
 import com.spire.presentation.*;
 import com.spire.presentation.collections.MasterSlideCollection;
-import com.spire.presentation.collections.SlideCollection;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -120,61 +119,61 @@ public class Controller {
     }
 
     private void updateWordFiles(List<File> files) {
-        if(files.isEmpty())
+        if (files.isEmpty())
             return;
         List<Document> documents = new ArrayList<>();
         files.forEach(file -> {
             try {
                 documents.add(new Document(file.getAbsolutePath()));
             } catch (Exception e) {
-                System.out.println("Load Document Exception: "+e.getMessage());
+                System.out.println("Load Document Exception: " + e.getMessage());
             }
         });
 
+        for (int i = 0; i < documents.size(); i++) {
 
-        if(updateLinksBtn.isSelected()) {
-            for (int i = 0; i < documents.size(); i++) {
+            Document document = documents.get(i);
 
-                for (Section section : (Iterable<Section>) documents.get(i).getSections()) {
-                    for(Paragraph paragraph : (Iterable<Paragraph>) section.getParagraphs()) {
-                        for(DocumentObject object : (Iterable<DocumentObject>) paragraph.getChildObjects()) {
-                            if(object.getDocumentObjectType().equals(DocumentObjectType.Field)) { // check if object is a field
+            if (updateLinksBtn.isSelected()) {
+                for (Section section : (Iterable<Section>) document.getSections()) {
+                    for (Paragraph paragraph : (Iterable<Paragraph>) section.getParagraphs()) {
+                        for (DocumentObject object : (Iterable<DocumentObject>) paragraph.getChildObjects()) {
+                            if (object.getDocumentObjectType().equals(DocumentObjectType.Field)) { // check if object is a field
                                 Field field = (Field) object;
 
                                 // check if field is a hyperlink and matches the address to be replaced
-                                if(field.getType().equals(FieldType.Field_Hyperlink) &&
-                                    field.getCode().contains(oldHyperlink.getCharacters())) {
+                                if (field.getType().equals(FieldType.Field_Hyperlink) &&
+                                        field.getCode().contains(oldHyperlink.getCharacters())) {
                                     System.out.print(field.getCode());
                                     field.setCode(getNewHyperlink(field.getCode()));
-                                    System.out.println(" --> "+field.getCode());
+                                    System.out.println(" --> " + field.getCode());
                                 }
                             }
                         }
                     }
                 }
-                documents.get(i).saveToFile(files.get(i).getAbsolutePath(), documents.get(i).getDetectedFormatType());
             }
-        }
 
-        if(updateLogoBtn.isSelected()) {
-            for(int i = 0; i < documents.size(); i++) {
-                for(Section section : (Iterable<Section>) documents.get(i).getSections()) {
+            if (updateLogoBtn.isSelected()) {
+                for (Section section : (Iterable<Section>) document.getSections()) {
 
                     //check headers/footers first
                     HeaderFooter header = section.getHeadersFooters().getHeader();
                     HeaderFooter footer = section.getHeadersFooters().getFooter();
 
-                    updateLogo(header.getParagraphs());
-                    updateLogo(footer.getParagraphs());
-                    updateLogo(section.getParagraphs());
+                    updateLogosWord(header.getParagraphs());
+                    updateLogosWord(footer.getParagraphs());
+                    updateLogosWord(section.getParagraphs());
                 }
-                documents.get(i).saveToFile(files.get(i).getAbsolutePath());
+//                documents.get(i).saveToFile(files.get(i).getAbsolutePath());
             }
+            String name = files.get(i).getAbsolutePath().replace(".docx", "-test.pptx");
+            document.saveToFile(files.get(i).getAbsolutePath(), documents.get(i).getDetectedFormatType());
         }
     }
 
     private void updatePowerPointFiles(List<File> files) throws Exception {
-        if(files.isEmpty())
+        if (files.isEmpty())
             return;
         List<Presentation> presentations = new ArrayList<>();
         files.forEach(file -> {
@@ -183,38 +182,60 @@ public class Controller {
                 presentation.loadFromFile(file.getAbsolutePath());
                 presentations.add(presentation);
             } catch (Exception e) {
-                System.out.println("Presentation Load Error: "+e.getMessage());
+                System.out.println("Presentation Load Error: " + e.getMessage());
             }
         });
 
-        if(updateLinksBtn.isSelected()) {
+        for (int i = 0; i < presentations.size(); i++) {
 
-        }
+            Presentation presentation = presentations.get(i);
 
-        if(updateLogoBtn.isSelected()) {
+            // update PPT Hyperlinks
+            if (updateLinksBtn.isSelected()) {
+                for (Object slide : presentation.getSlides()) {
+                    if (slide instanceof ISlide) {
+                        System.out.println("ISlide slide");
+                        for (Object shape : ((ISlide) slide).getShapes()) {
+                            if (shape instanceof IShape) {
+                                System.out.println("IShape shape");
+                                if (((IShape) shape).getClick() != null) {
+                                    if (((IShape) shape).getClick().getAddress() != null) {
+                                        String hyperlink = ((IShape) shape).getClick().getAddress();
+                                        if (hyperlink.contains(oldHyperlink.getCharacters())) {
+                                            System.out.println("Updating Hyperlink");
+                                            ((IShape) shape).getClick().setAddress(getNewHyperlink(hyperlink));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    System.out.println();
+                }
+            }
 
-        }
+            // update PPT logos
+            if (updateLogoBtn.isSelected()) {
+            }
 
-        if(updateTemplateBtn.isSelected()) {
-            Presentation template = new Presentation();
-            template.loadFromFile(templateFile.getAbsolutePath());
-            System.out.println("Template loaded");
-
-            for(int i = 0; i < presentations.size(); i++) {
-                MasterSlideCollection masterSlides = presentations.get(i).getMasters();
+            // update PPT Templates
+            if (updateTemplateBtn.isSelected()) {
+                Presentation template = new Presentation();
+                template.loadFromFile(templateFile.getAbsolutePath());
+                System.out.println("Template loaded");
+                MasterSlideCollection masterSlides = presentation.getMasters();
                 masterSlides.appendSlide(template.getMasters().get(0));
 
                 // set title layouts
-                Presentation currentPres = presentations.get(i);
-                ISlide firstSlide = currentPres.getSlides().get(0);
+                ISlide firstSlide = presentation.getSlides().get(0);
 
-               firstSlide
-                       .setLayout(masterSlides.get(masterSlides.getCount()-1)   // get replacement master slide
+                firstSlide
+                        .setLayout(masterSlides.get(masterSlides.getCount() - 1)   // get replacement master slide
                                 .getLayouts().get(0));                          // get title layout
 
-                if(firstSlide.getTitle().equals("")) {                          // title is contained within a textbox
+                if (firstSlide.getTitle().equals("")) { // title is contained within a textbox
                     Object shape = firstSlide.getShapes().get(1);
-                    if(shape instanceof IAutoShape) {
+                    if (shape instanceof IAutoShape) {
                         IAutoShape titleContainer = (IAutoShape) shape;
                         firstSlide.setTitle(titleContainer.getTextFrame()
                                 .getParagraphs().get(0).getText());
@@ -224,24 +245,42 @@ public class Controller {
                         System.out.println("Title could not be found");
                     }
 
-                    for(int j = 0; j < firstSlide.getShapes().size(); j++) {
+                    for (int j = 0; j < firstSlide.getShapes().size(); j++) {
                         shape = firstSlide.getShapes().get(j);
-                        if(shape instanceof SlidePicture) {
+                        if (shape instanceof SlidePicture) {
                             firstSlide.getShapes().removeAt(j);
                         }
                     }
                 }
-//
-                // set all other slides layout
-                for(int j = 1; j < currentPres.getSlides().getCount(); j++) {
-                    currentPres.getSlides().get(j)
-                            .setLayout(masterSlides.get(masterSlides.getCount()-1)
-                                    .getLayouts().get(2));
-                }
 
-                String name = files.get(i).getAbsolutePath().replace(".pptx", "-test.pptx");
-                currentPres.saveToFile(name, com.spire.presentation.FileFormat.PPTX_2013);
+                // set all other slides layout
+                for (int j = 1; j < presentation.getSlides().getCount(); j++) {
+                    ISlide slide = presentation.getSlides().get(j);
+                    List<Float> positions = new ArrayList<>();
+
+                    // store positions for each shape
+                    for (Object shape : slide.getShapes()) {
+                        if (shape instanceof IAutoShape) {
+//                            positions.add(((IAutoShape) shape).getTop());
+                            positions.add(((IAutoShape) shape).getLeft());
+                        } else if (shape instanceof IShape) {
+//                            positions.add(((IShape) shape).getTop());
+                            positions.add(((IShape) shape).getLeft());
+                        }
+                    }
+                    slide.setLayout(masterSlides.get(masterSlides.getCount() - 1)
+                            .getLayouts().get(3));
+
+                    // re-apply the positions
+                    for (int k = 0; k < positions.size(); k++) {
+                        slide.getShapes().get(k)
+                                .setLeft(positions.get(k));
+                    }
+                }
             }
+
+            String name = files.get(i).getAbsolutePath().replace(".pptx", "-test.pptx");
+            presentation.saveToFile(name, com.spire.presentation.FileFormat.PPTX_2013);
         }
     }
 
@@ -249,13 +288,13 @@ public class Controller {
 
     }
 
-    private void updateLogo(Iterable<Paragraph> paragraphs) {
-        for(Paragraph paragraph : paragraphs) {
-            for(DocumentObject object : (Iterable<DocumentObject>) paragraph.getChildObjects()) {
-                if(object instanceof DocPicture) {
+    private void updateLogosWord(Iterable<Paragraph> paragraphs) {
+        for (Paragraph paragraph : paragraphs) {
+            for (DocumentObject object : (Iterable<DocumentObject>) paragraph.getChildObjects()) {
+                if (object instanceof DocPicture) {
                     System.out.println("docpicture");
                     DocPicture picture = (DocPicture) object;
-                    if(picture.getAlternativeText().equals("har2_col") || picture.getAlternativeText().equals("l3har_logo")) {
+                    if (picture.getAlternativeText().equals("har2_col") || picture.getAlternativeText().equals("l3har_logo")) {
                         System.out.println("logo picture found");
                         picture.loadImage(pictureFile.getAbsolutePath());
                         picture.setAlternativeText("l3har_logo");
@@ -296,7 +335,7 @@ public class Controller {
     @FXML
     private void loadDocuments() {
         documents = docChooser.showOpenMultipleDialog(updateLinksGrid.getScene().getWindow());
-        if(!documents.isEmpty()) {
+        if (!documents.isEmpty()) {
             leftGrid.setDisable(false);
             rightGrid.setDisable(false);
             loadedLabel.setVisible(true);
@@ -313,7 +352,7 @@ public class Controller {
                     .filter((s) -> s.getName().contains(".xl"))
                     .collect(Collectors.toList());
 
-            if(!pptFiles.isEmpty()) {
+            if (!pptFiles.isEmpty()) {
                 updateTemplateBtn.setDisable(false);
             }
         }
@@ -327,7 +366,7 @@ public class Controller {
     @FXML
     private void loadPicture() {
         pictureFile = imageChooser.showOpenDialog(updateLogoGrid.getScene().getWindow());
-        Image previewImage = new Image("file:"+pictureFile.getAbsolutePath());
+        Image previewImage = new Image("file:" + pictureFile.getAbsolutePath());
         imageView.setImage(previewImage);
     }
 
