@@ -9,6 +9,10 @@ import com.spire.doc.fields.DocPicture;
 import com.spire.doc.fields.Field;
 import com.spire.presentation.*;
 import com.spire.presentation.collections.MasterSlideCollection;
+import com.spire.xls.ExcelPicture;
+import com.spire.xls.HyperLink;
+import com.spire.xls.Workbook;
+import com.spire.xls.Worksheet;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -16,7 +20,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -121,12 +128,14 @@ public class Controller {
     private void updateWordFiles(List<File> files) {
         if (files.isEmpty())
             return;
+
+        System.out.println("Updating Word Files...");
         List<Document> documents = new ArrayList<>();
         files.forEach(file -> {
             try {
                 documents.add(new Document(file.getAbsolutePath()));
             } catch (Exception e) {
-                System.out.println("Load Document Exception: " + e.getMessage());
+                System.out.println("\tLoad Document Exception: " + e.getMessage());
             }
         });
 
@@ -135,6 +144,7 @@ public class Controller {
             Document document = documents.get(i);
 
             if (updateLinksBtn.isSelected()) {
+                System.out.println("\tUpdating Hyperlinks");
                 for (Section section : (Iterable<Section>) document.getSections()) {
                     for (Paragraph paragraph : (Iterable<Paragraph>) section.getParagraphs()) {
                         for (DocumentObject object : (Iterable<DocumentObject>) paragraph.getChildObjects()) {
@@ -144,9 +154,9 @@ public class Controller {
                                 // check if field is a hyperlink and matches the address to be replaced
                                 if (field.getType().equals(FieldType.Field_Hyperlink) &&
                                         field.getCode().contains(oldHyperlink.getCharacters())) {
-                                    System.out.print(field.getCode());
+//                                    System.out.print(field.getCode());
                                     field.setCode(getNewHyperlink(field.getCode()));
-                                    System.out.println(" --> " + field.getCode());
+//                                    System.out.println(" --> " + field.getCode());
                                 }
                             }
                         }
@@ -155,8 +165,8 @@ public class Controller {
             }
 
             if (updateLogoBtn.isSelected()) {
+                System.out.println("\tUpdating Logos");
                 for (Section section : (Iterable<Section>) document.getSections()) {
-
                     //check headers/footers first
                     HeaderFooter header = section.getHeadersFooters().getHeader();
                     HeaderFooter footer = section.getHeadersFooters().getFooter();
@@ -285,7 +295,60 @@ public class Controller {
     }
 
     private void updateExcelFiles(List<File> files) {
+        if (files.isEmpty())
+            return;
 
+        System.out.println("Updating Excel Files...");
+        List<Workbook> workbooks = new ArrayList<>();
+        files.forEach(file -> {
+            try {
+                Workbook wb = new Workbook();
+                wb.loadFromFile(file.getAbsolutePath());
+                workbooks.add(wb);
+            } catch (Exception e) {
+                System.out.println("Error loading Excel Workbook: " + e.getMessage());
+            }
+        });
+
+        for (int i = 0; i < workbooks.size(); i++) {
+            Workbook wb = workbooks.get(i);
+            if (updateLinksBtn.isSelected()) {
+                System.out.println("\tUpdating Hyperlinks");
+                for (Object ws : wb.getWorksheets()) {
+                    if (ws instanceof Worksheet) {
+                        for (Object hyperLink : ((Worksheet) ws).getHyperLinks()) {
+                            if (hyperLink instanceof HyperLink) {
+                                if (((HyperLink) hyperLink).getAddress().contains(oldHyperlink.getCharacters())) {
+                                    ((HyperLink) hyperLink).setAddress(getNewHyperlink(((HyperLink) hyperLink).getAddress()));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (updateLogoBtn.isSelected()) {
+                for (Object ws : wb.getWorksheets()) {
+                    if (ws instanceof Worksheet) {
+                        for (Object picture : ((Worksheet) ws).getPictures()) {
+                            if (picture instanceof ExcelPicture) {
+                                if (((ExcelPicture) picture).getAlternativeText().contains("har")) {
+                                    BufferedImage img;
+                                    try {
+                                        img = ImageIO.read(pictureFile);
+                                        ((ExcelPicture) picture).setPicture(img);
+                                        ((ExcelPicture) picture).setAlternativeText("l3har_logo");
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            wb.saveToFile(files.get(i).getAbsolutePath());
+        }
     }
 
     private void updateLogosWord(Iterable<Paragraph> paragraphs) {
@@ -294,7 +357,7 @@ public class Controller {
                 if (object instanceof DocPicture) {
                     System.out.println("docpicture");
                     DocPicture picture = (DocPicture) object;
-                    if (picture.getAlternativeText().equals("har2_col") || picture.getAlternativeText().equals("l3har_logo")) {
+                    if (picture.getAlternativeText().contains("har")) {
                         System.out.println("logo picture found");
                         picture.loadImage(pictureFile.getAbsolutePath());
                         picture.setAlternativeText("l3har_logo");
