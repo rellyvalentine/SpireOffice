@@ -108,6 +108,8 @@ public class Controller {
         FileChooser.ExtensionFilter templateFilter = new FileChooser.ExtensionFilter("PPT Template (*.potx)", "*.potx");
         templateChooser.getExtensionFilters().addAll(templateFilter);
 
+        FileChooser.ExtensionFilter officeFilter = new FileChooser.ExtensionFilter("Microsoft Office Files",
+                "*.docx", "*.doc", "*.pptx", "*.ppt", "*.xlsx", "*.xlsm", "*.xlsb", "*.xltx", "*.xltm", "*.xls", "*.xlt", "*.xml");
         FileChooser.ExtensionFilter docFilter = new FileChooser.ExtensionFilter("Word Documents (*.docx;*.doc)", "*.docx", "*.doc");
         FileChooser.ExtensionFilter pptFilter = new FileChooser.ExtensionFilter("PowerPoint Presentations (*.pptx;*.ppt)", "*.pptx", "*.ppt");
         FileChooser.ExtensionFilter excelFilter = new FileChooser.ExtensionFilter("Excel Files (*.xlsx;*.xlsm;*.xlsb;*.xltx;*.xltm;*.xls;*.xlt;*.xml",
@@ -122,6 +124,7 @@ public class Controller {
         updateWordFiles(wordFiles);
         updatePowerPointFiles(pptFiles);
         updateExcelFiles(excelFiles);
+
 
     }
 
@@ -185,6 +188,7 @@ public class Controller {
     private void updatePowerPointFiles(List<File> files) throws Exception {
         if (files.isEmpty())
             return;
+        System.out.println("Updating PowerPoint Files...");
         List<Presentation> presentations = new ArrayList<>();
         files.forEach(file -> {
             try {
@@ -202,17 +206,15 @@ public class Controller {
 
             // update PPT Hyperlinks
             if (updateLinksBtn.isSelected()) {
+                System.out.println("\tUpdating Hyperlinks");
                 for (Object slide : presentation.getSlides()) {
                     if (slide instanceof ISlide) {
-                        System.out.println("ISlide slide");
                         for (Object shape : ((ISlide) slide).getShapes()) {
                             if (shape instanceof IShape) {
-                                System.out.println("IShape shape");
                                 if (((IShape) shape).getClick() != null) {
                                     if (((IShape) shape).getClick().getAddress() != null) {
                                         String hyperlink = ((IShape) shape).getClick().getAddress();
                                         if (hyperlink.contains(oldHyperlink.getCharacters())) {
-                                            System.out.println("Updating Hyperlink");
                                             ((IShape) shape).getClick().setAddress(getNewHyperlink(hyperlink));
                                         }
                                     }
@@ -230,9 +232,9 @@ public class Controller {
 
             // update PPT Templates
             if (updateTemplateBtn.isSelected()) {
+                System.out.println("\tUpdating Templates...");
                 Presentation template = new Presentation();
                 template.loadFromFile(templateFile.getAbsolutePath());
-                System.out.println("Template loaded");
                 MasterSlideCollection masterSlides = presentation.getMasters();
                 masterSlides.appendSlide(template.getMasters().get(0));
 
