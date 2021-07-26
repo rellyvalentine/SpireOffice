@@ -60,8 +60,8 @@
                 <RowConstraints percentHeight="50.0" />
             </rowConstraints>
 
-            <TextField fx:id="oldHyperlink" promptText="Old Hyperlink Directory" GridPane.rowIndex="0" />
-            <TextField fx:id="newHyperlink" promptText="New Hyperlink Directory" GridPane.rowIndex="1" />
+            <TextField fx:id="oldHyperlink" promptText="Old Hyperlink Directory" GridPane.rowIndex="0" onKeyPressed="#oldHyperlinkChanged"/>
+            <TextField fx:id="newHyperlink" promptText="New Hyperlink Directory" GridPane.rowIndex="1" onKeyPressed="#newHyperlinkChanged" />
         </GridPane>
 
         <GridPane fx:id="updateLogoGrid" disable="true" gridLinesVisible="true" GridPane.columnIndex="1">
@@ -107,6 +107,10 @@
 <!--        </GridPane>-->
 
     </GridPane>
-    <Button fx:id="updateButton" mnemonicParsing="false" onMouseClicked="#processUpdate" text="Update" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+    <VBox alignment="CENTER" GridPane.rowIndex="3">
+        <Button fx:id="updateBtn" disable="true" mnemonicParsing="false" onMouseClicked="#processUpdate" text="Update" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+        <Label fx:id="updateCompleteLabel" text="Update Complete! Select more files to continue." textFill="limegreen" visible="false"/>
+
+    </VBox>
 
 </GridPane>

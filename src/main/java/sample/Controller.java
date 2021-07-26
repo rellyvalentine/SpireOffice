@@ -88,6 +88,12 @@ public class Controller {
     @FXML
     private ImageView imageView;
 
+    @FXML
+    private Button updateBtn;
+
+    @FXML
+    private Label updateCompleteLabel;
+
     private List<File> documents;
     private boolean inheritSize;
 
@@ -114,7 +120,7 @@ public class Controller {
         FileChooser.ExtensionFilter pptFilter = new FileChooser.ExtensionFilter("PowerPoint Presentations (*.pptx;*.ppt)", "*.pptx", "*.ppt");
         FileChooser.ExtensionFilter excelFilter = new FileChooser.ExtensionFilter("Excel Files (*.xlsx;*.xlsm;*.xlsb;*.xltx;*.xltm;*.xls;*.xlt;*.xml",
                 "*.xlsx", "*.xlsm", "*.xlsb", "*.xltx", "*.xltm", "*.xls", "*.xlt", "*.xml");
-        docChooser.getExtensionFilters().addAll(docFilter, pptFilter, excelFilter);
+        docChooser.getExtensionFilters().addAll(officeFilter, docFilter, pptFilter, excelFilter);
 
     }
 
@@ -125,7 +131,24 @@ public class Controller {
         updatePowerPointFiles(pptFiles);
         updateExcelFiles(excelFiles);
 
+        updateCompleteLabel.setVisible(true);
+        resetGrid();
 
+    }
+
+    private void resetGrid() {
+        leftGrid.setDisable(true);
+        rightGrid.setDisable(true);
+        updateTemplateBtn.setDisable(true);
+        updateLinksGrid.setDisable(true);
+        updateLinksBtn.setDisable(true);
+        updateLogoGrid.setDisable(true);
+        widthLabel.setDisable(true);
+        widthSpinner.setDisable(true);
+        heightLabel.setDisable(true);
+        heightSpinner.setDisable(true);
+        selectTemplateFile.setDisable(true);
+        updateBtn.setDisable(true);
     }
 
     private void updateWordFiles(List<File> files) {
@@ -376,16 +399,49 @@ public class Controller {
     @FXML
     private void toggleTemplateBtn() {
         selectTemplateFile.setDisable(!updateTemplateBtn.isSelected());
+        if (!updateLogoBtn.isSelected() && !updateLinksBtn.isSelected() && !updateTemplateBtn.isSelected()) {
+            updateBtn.setDisable(true);
+        }
     }
 
     @FXML
     private void toggleLinksUpdates() {
         updateLinksGrid.setDisable(!updateLinksBtn.isSelected());
+        if (!updateLogoBtn.isSelected() && !updateLinksBtn.isSelected() && !updateTemplateBtn.isSelected()) {
+            updateBtn.setDisable(true);
+        }
+    }
+
+    @FXML
+    private void oldHyperlinkChanged() {
+        System.out.println("old hyperlink updated");
+        if (oldHyperlink.getText().equals("") && !newHyperlink.getText().equals("") && updateBtn.isDisabled()) {
+            updateBtn.setDisable(false);
+        } else {
+            updateBtn.setDisable(true);
+        }
+    }
+
+    @FXML
+    private void newHyperlinkChanged() {
+        System.out.println("new hyperlink updated");
+        if (!oldHyperlink.getText().equals("") && !newHyperlink.getText().equals("") && updateBtn.isDisabled()) {
+            updateBtn.setDisable(false);
+        } else {
+            updateBtn.setDisable(true);
+        }
     }
 
     @FXML
     private void toggleLogoUpdates() {
         updateLogoGrid.setDisable(!updateLogoBtn.isSelected());
+        if (!updateLogoBtn.isSelected() && !updateLinksBtn.isSelected() && !updateTemplateBtn.isSelected()) {
+            updateBtn.setDisable(true);
+        } else {
+            if (pictureFile != null && updateBtn.isDisabled()) {
+                updateBtn.setDisable(false);
+            }
+        }
     }
 
     @FXML
@@ -402,7 +458,9 @@ public class Controller {
         documents = docChooser.showOpenMultipleDialog(updateLinksGrid.getScene().getWindow());
         if (!documents.isEmpty()) {
             leftGrid.setDisable(false);
+            updateLinksBtn.setDisable(false);
             rightGrid.setDisable(false);
+            updateLogoBtn.setDisable(false);
             loadedLabel.setVisible(true);
 
             wordFiles = documents.stream()
@@ -426,6 +484,9 @@ public class Controller {
     @FXML
     private void loadTemplate() {
         templateFile = templateChooser.showOpenDialog(updateLinksGrid.getScene().getWindow());
+        if (updateBtn.isDisabled()) {
+            updateBtn.setDisable(false);
+        }
     }
 
     @FXML
@@ -433,6 +494,10 @@ public class Controller {
         pictureFile = imageChooser.showOpenDialog(updateLogoGrid.getScene().getWindow());
         Image previewImage = new Image("file:" + pictureFile.getAbsolutePath());
         imageView.setImage(previewImage);
+        if (updateBtn.isDisabled()) {
+            updateBtn.setDisable(false);
+        }
+
     }
 
 
