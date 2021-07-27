@@ -60,8 +60,8 @@
                 <RowConstraints percentHeight="50.0" />
             </rowConstraints>
 
-            <TextField fx:id="oldHyperlink" promptText="Old Hyperlink Directory" GridPane.rowIndex="0" onKeyPressed="#oldHyperlinkChanged"/>
-            <TextField fx:id="newHyperlink" promptText="New Hyperlink Directory" GridPane.rowIndex="1" onKeyPressed="#newHyperlinkChanged" />
+            <TextField fx:id="oldHyperlink" onKeyPressed="#oldHyperlinkChanged" promptText="Old Hyperlink Directory" GridPane.rowIndex="0" />
+            <TextField fx:id="newHyperlink" onKeyPressed="#newHyperlinkChanged" promptText="New Hyperlink Directory" GridPane.rowIndex="1" />
         </GridPane>
 
         <GridPane fx:id="updateLogoGrid" disable="true" gridLinesVisible="true" GridPane.columnIndex="1">
@@ -108,8 +108,12 @@
 
     </GridPane>
     <VBox alignment="CENTER" GridPane.rowIndex="3">
-        <Button fx:id="updateBtn" disable="true" mnemonicParsing="false" onMouseClicked="#processUpdate" text="Update" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-        <Label fx:id="updateCompleteLabel" text="Update Complete! Select more files to continue." textFill="limegreen" visible="false"/>
+        <Button fx:id="selectDirectory" mnemonicParsing="false" onMouseClicked="#selectDirectory" text="Select Folder" GridPane.halignment="CENTER">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin></Button>
+        <Button fx:id="updateBtn" disable="true" mnemonicParsing="false" onMouseClicked="#processUpdate" text="Update" GridPane.halignment="CENTER" />
+        <Label fx:id="updateCompleteLabel" text="Update Complete! Select more files to continue." textFill="limegreen" visible="false" />
 
     </VBox>
 

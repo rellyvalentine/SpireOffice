@@ -18,6 +18,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import javax.imageio.ImageIO;
@@ -33,9 +34,11 @@ public class Controller {
     private final FileChooser imageChooser = new FileChooser();
     private final FileChooser templateChooser = new FileChooser();
     private final FileChooser docChooser = new FileChooser();
+    private final DirectoryChooser directoryChooser = new DirectoryChooser();
 
     private File pictureFile;
     private File templateFile;
+    private File saveDirectory;
 
     @FXML
     private GridPane leftGrid;
@@ -95,11 +98,12 @@ public class Controller {
     private Label updateCompleteLabel;
 
     private List<File> documents;
-    private boolean inheritSize;
-
     private List<File> wordFiles;
     private List<File> pptFiles;
     private List<File> excelFiles;
+
+    private boolean inheritSize;
+
 
     @FXML
     private void initialize() throws Exception {
@@ -203,8 +207,8 @@ public class Controller {
                 }
 //                documents.get(i).saveToFile(files.get(i).getAbsolutePath());
             }
-            String name = files.get(i).getAbsolutePath().replace(".docx", "-test.pptx");
-            document.saveToFile(files.get(i).getAbsolutePath(), documents.get(i).getDetectedFormatType());
+            String name = saveDirectory.getAbsolutePath() + "/" + files.get(i).getName().replace(".docx", "-test.docx");
+            document.saveToFile(name, documents.get(i).getDetectedFormatType());
         }
     }
 
@@ -314,7 +318,7 @@ public class Controller {
                 }
             }
 
-            String name = files.get(i).getAbsolutePath().replace(".pptx", "-test.pptx");
+            String name = saveDirectory.getAbsolutePath() + "/" + files.get(i).getName().replace(".pptx", "-test.pptx");
             presentation.saveToFile(name, com.spire.presentation.FileFormat.PPTX_2013);
         }
     }
@@ -372,7 +376,8 @@ public class Controller {
                     }
                 }
             }
-            wb.saveToFile(files.get(i).getAbsolutePath());
+            String name = saveDirectory.getAbsolutePath() + "/" + files.get(i).getName().replace(".xlsx", "-test.xlsx");
+            wb.saveToFile(name);
         }
     }
 
@@ -479,6 +484,12 @@ public class Controller {
                 updateTemplateBtn.setDisable(false);
             }
         }
+    }
+
+    @FXML
+    private void selectDirectory() {
+        saveDirectory = directoryChooser.showDialog(updateLinksGrid.getScene().getWindow());
+        System.out.println("Directory Selected: "+saveDirectory.getAbsolutePath());
     }
 
     @FXML
