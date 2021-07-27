@@ -92,6 +92,9 @@ public class Controller {
     private ImageView imageView;
 
     @FXML
+    private Button selectDirectory;
+
+    @FXML
     private Button updateBtn;
 
     @FXML
@@ -141,18 +144,28 @@ public class Controller {
     }
 
     private void resetGrid() {
+        // disable grids
         leftGrid.setDisable(true);
         rightGrid.setDisable(true);
-        updateTemplateBtn.setDisable(true);
-        updateLinksGrid.setDisable(true);
-        updateLinksBtn.setDisable(true);
         updateLogoGrid.setDisable(true);
-        widthLabel.setDisable(true);
-        widthSpinner.setDisable(true);
-        heightLabel.setDisable(true);
-        heightSpinner.setDisable(true);
+        updateLinksGrid.setDisable(true);
+
+        //deselect buttons
+        updateLinksBtn.setSelected(false);
+        updateLogoBtn.setSelected(false);
+        updateTemplateBtn.setSelected(false);
         selectTemplateFile.setDisable(true);
         updateBtn.setDisable(true);
+
+        // disable buttons/labels
+        updateTemplateBtn.setDisable(true);
+        updateLinksBtn.setDisable(true);
+        selectDirectory.setDisable(true);
+        widthSpinner.setDisable(true);
+        heightSpinner.setDisable(true);
+        widthLabel.setDisable(true);
+        heightLabel.setDisable(true);
+        loadedLabel.setVisible(false);
     }
 
     private void updateWordFiles(List<File> files) {
@@ -402,51 +415,49 @@ public class Controller {
     }
 
     @FXML
+    private void checkUpdateButton() {
+        if(!updateLogoBtn.isSelected() && !updateLinksBtn.isSelected() && !updateTemplateBtn.isSelected()) {
+            updateBtn.setDisable(true);
+            selectDirectory.setDisable(true);
+        }
+        else {
+            if(updateLogoBtn.isSelected() && pictureFile != null && updateBtn.isDisabled()) {
+                updateBtn.setDisable(false);
+                selectDirectory.setDisable(false);
+            }
+            if(updateTemplateBtn.isSelected() && templateFile != null) {
+                updateBtn.setDisable(false);
+                selectDirectory.setDisable(false);
+            }
+            if(updateLinksBtn.isSelected()) {
+                if(!newHyperlink.getText().equals("") && !oldHyperlink.getText().equals("")) {
+                    updateBtn.setDisable(false);
+                    selectDirectory.setDisable(false);
+                }
+                else {
+                    updateBtn.setDisable(true);
+                    selectDirectory.setDisable(true);
+                }
+            }
+        }
+    }
+
+    @FXML
     private void toggleTemplateBtn() {
         selectTemplateFile.setDisable(!updateTemplateBtn.isSelected());
-        if (!updateLogoBtn.isSelected() && !updateLinksBtn.isSelected() && !updateTemplateBtn.isSelected()) {
-            updateBtn.setDisable(true);
-        }
+        checkUpdateButton();
     }
 
     @FXML
     private void toggleLinksUpdates() {
         updateLinksGrid.setDisable(!updateLinksBtn.isSelected());
-        if (!updateLogoBtn.isSelected() && !updateLinksBtn.isSelected() && !updateTemplateBtn.isSelected()) {
-            updateBtn.setDisable(true);
-        }
-    }
-
-    @FXML
-    private void oldHyperlinkChanged() {
-        System.out.println("old hyperlink updated");
-        if (oldHyperlink.getText().equals("") && !newHyperlink.getText().equals("") && updateBtn.isDisabled()) {
-            updateBtn.setDisable(false);
-        } else {
-            updateBtn.setDisable(true);
-        }
-    }
-
-    @FXML
-    private void newHyperlinkChanged() {
-        System.out.println("new hyperlink updated");
-        if (!oldHyperlink.getText().equals("") && !newHyperlink.getText().equals("") && updateBtn.isDisabled()) {
-            updateBtn.setDisable(false);
-        } else {
-            updateBtn.setDisable(true);
-        }
+        checkUpdateButton();
     }
 
     @FXML
     private void toggleLogoUpdates() {
         updateLogoGrid.setDisable(!updateLogoBtn.isSelected());
-        if (!updateLogoBtn.isSelected() && !updateLinksBtn.isSelected() && !updateTemplateBtn.isSelected()) {
-            updateBtn.setDisable(true);
-        } else {
-            if (pictureFile != null && updateBtn.isDisabled()) {
-                updateBtn.setDisable(false);
-            }
-        }
+        checkUpdateButton();
     }
 
     @FXML
@@ -467,6 +478,9 @@ public class Controller {
             rightGrid.setDisable(false);
             updateLogoBtn.setDisable(false);
             loadedLabel.setVisible(true);
+            if(updateCompleteLabel.isVisible()) {
+                updateCompleteLabel.setVisible(false);
+            }
 
             wordFiles = documents.stream()
                     .filter((s) -> s.getName().contains(".doc"))
@@ -495,9 +509,7 @@ public class Controller {
     @FXML
     private void loadTemplate() {
         templateFile = templateChooser.showOpenDialog(updateLinksGrid.getScene().getWindow());
-        if (updateBtn.isDisabled()) {
-            updateBtn.setDisable(false);
-        }
+        checkUpdateButton();
     }
 
     @FXML
@@ -505,9 +517,7 @@ public class Controller {
         pictureFile = imageChooser.showOpenDialog(updateLogoGrid.getScene().getWindow());
         Image previewImage = new Image("file:" + pictureFile.getAbsolutePath());
         imageView.setImage(previewImage);
-        if (updateBtn.isDisabled()) {
-            updateBtn.setDisable(false);
-        }
+        checkUpdateButton();
 
     }
 
