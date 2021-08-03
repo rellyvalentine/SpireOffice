@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+//import java.util.stream.Collectors;
 
 public class Controller {
 
@@ -94,10 +94,10 @@ public class Controller {
     @FXML
     private Label updateCompleteLabel;
 
-    private List<File> documents;
-    private List<File> wordFiles;
-    private List<File> pptFiles;
-    private List<File> excelFiles;
+    private List<File> documents = new ArrayList<>();
+    private final  List<File> wordFiles = new ArrayList<>();
+    private final List<File> pptFiles = new ArrayList<>();
+    private final List<File> excelFiles = new ArrayList<>();
 
 
     @FXML
@@ -169,13 +169,20 @@ public class Controller {
 
         System.out.println("Updating Word Files...");
         List<Document> documents = new ArrayList<>();
-        files.forEach(file -> {
+        for(File file : files) {
             try {
                 documents.add(new Document(file.getAbsolutePath()));
             } catch (Exception e) {
                 System.out.println("\tLoad Document Exception: " + e.getMessage());
             }
-        });
+        }
+//        files.forEach(file -> {
+//            try {
+//                documents.add(new Document(file.getAbsolutePath()));
+//            } catch (Exception e) {
+//                System.out.println("\tLoad Document Exception: " + e.getMessage());
+//            }
+//        });
 
         for (int i = 0; i < documents.size(); i++) {
 
@@ -231,7 +238,7 @@ public class Controller {
             return;
         System.out.println("Updating PowerPoint Files...");
         List<Presentation> presentations = new ArrayList<>();
-        files.forEach(file -> {
+        for(File file : files) {
             try {
                 Presentation presentation = new Presentation();
                 presentation.loadFromFile(file.getAbsolutePath());
@@ -239,7 +246,16 @@ public class Controller {
             } catch (Exception e) {
                 System.out.println("Presentation Load Error: " + e.getMessage());
             }
-        });
+        }
+//        files.forEach(file -> {
+//            try {
+//                Presentation presentation = new Presentation();
+//                presentation.loadFromFile(file.getAbsolutePath());
+//                presentations.add(presentation);
+//            } catch (Exception e) {
+//                System.out.println("Presentation Load Error: " + e.getMessage());
+//            }
+//        });
 
         for (int i = 0; i < presentations.size(); i++) {
 
@@ -364,7 +380,7 @@ public class Controller {
 
         System.out.println("Updating Excel Files...");
         List<Workbook> workbooks = new ArrayList<>();
-        files.forEach(file -> {
+        for(File file : files) {
             try {
                 Workbook wb = new Workbook();
                 wb.loadFromFile(file.getAbsolutePath());
@@ -372,7 +388,16 @@ public class Controller {
             } catch (Exception e) {
                 System.out.println("Error loading Excel Workbook: " + e.getMessage());
             }
-        });
+        }
+//        files.forEach(file -> {
+//            try {
+//                Workbook wb = new Workbook();
+//                wb.loadFromFile(file.getAbsolutePath());
+//                workbooks.add(wb);
+//            } catch (Exception e) {
+//                System.out.println("Error loading Excel Workbook: " + e.getMessage());
+//            }
+//        });
 
         for (int i = 0; i < workbooks.size(); i++) {
             Workbook wb = workbooks.get(i);
@@ -524,17 +549,30 @@ public class Controller {
                 updateCompleteLabel.setVisible(false);
             }
 
-            wordFiles = documents.stream()
-                    .filter((s) -> s.getName().contains(".doc"))
-                    .collect(Collectors.toList());
+            for(File document : documents) {
+                if(document.getName().contains(".doc")) {
+                    wordFiles.add(document);
+                }
 
-            pptFiles = documents.stream()
-                    .filter((s) -> s.getName().contains(".ppt"))
-                    .collect(Collectors.toList());
+                else if(document.getName().contains(".ppt")) {
+                    pptFiles.add(document);
+                }
 
-            excelFiles = documents.stream()
-                    .filter((s) -> s.getName().contains(".xl"))
-                    .collect(Collectors.toList());
+                else if(document.getName().contains(".xl")) {
+                    excelFiles.add(document);
+                }
+            }
+//            wordFiles = documents.stream()
+//                    .filter((s) -> s.getName().contains(".doc"))
+//                    .collect(Collectors.toList());
+
+//            pptFiles = documents.stream()
+//                    .filter((s) -> s.getName().contains(".ppt"))
+//                    .collect(Collectors.toList());
+//
+//            excelFiles = documents.stream()
+//                    .filter((s) -> s.getName().contains(".xl"))
+//                    .collect(Collectors.toList());
 
             if (!pptFiles.isEmpty()) {
                 updateTemplateBtn.setDisable(false);

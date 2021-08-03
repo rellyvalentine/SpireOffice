@@ -20,7 +20,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="SpireOffice" target="11" />
+      <module name="SpireOffice" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

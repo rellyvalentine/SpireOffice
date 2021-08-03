@@ -52,7 +52,7 @@
         <VBox fx:id="updateLinksGrid" disable="true" prefHeight="175.0" prefWidth="267.0" GridPane.columnIndex="0">
             <TextField fx:id="oldHyperlinkField" onKeyPressed="#checkUpdateButton" promptText="Old Hyperlink Directory">
                 <VBox.margin>
-                    <Insets bottom="15.0" />
+<!--                    <Insets bottom="15.0" />-->
                 </VBox.margin>
             </TextField>
             <TextField fx:id="newHyperlinkField" onKeyPressed="#checkUpdateButton" promptText="New Hyperlink Directory" />
@@ -61,7 +61,7 @@
         <GridPane fx:id="updateLogoGrid" alignment="CENTER" disable="true" GridPane.columnIndex="1">
             <Label alignment="CENTER" prefHeight="20.0" prefWidth="267.0" text="click to select an image">
                 <font>
-                    <Font size="14.0" />
+<!--                    <Font size="14.0" />-->
                 </font>
             </Label>
             <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="267.0" onMouseClicked="#loadPicture" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1">
@@ -96,7 +96,7 @@
         <VBox alignment="CENTER" GridPane.columnIndex="0">
          <Label text="Replace Words">
             <font>
-               <Font size="14.0" />
+<!--               <Font size="14.0" />-->
             </font>
          </Label>
             <HBox alignment="CENTER" prefHeight="68.0" prefWidth="402.0">
@@ -108,21 +108,22 @@
         <VBox alignment="CENTER" GridPane.columnIndex="1">
             <Label text="Replacement List">
                 <font>
-                    <Font size="14.0" />
+<!--                    <Font size="14.0" />-->
                 </font>
             </Label>
             <ScrollPane>
                 <ListView fx:id="replacementList" prefHeight="200.0" prefWidth="375.0">
-               <padding>
-                  <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-               </padding></ListView>
+<!--               <padding>-->
+<!--                  <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />-->
+<!--               </padding>-->
+                </ListView>
             <VBox.margin>
-               <Insets bottom="10.0" left="5.0" right="5.0" />
+<!--               <Insets bottom="10.0" left="5.0" right="5.0" />-->
             </VBox.margin>
             </ScrollPane>
          <Button mnemonicParsing="false" text="Remove Replacement" onMouseClicked="#removeReplaceWord">
             <VBox.margin>
-               <Insets bottom="12.0" />
+<!--               <Insets bottom="12.0" />-->
             </VBox.margin>
          </Button>
         </VBox>
@@ -131,7 +132,7 @@
     <VBox alignment="CENTER" GridPane.rowIndex="4">
         <Button fx:id="selectDirectory" disable="true" mnemonicParsing="false" onMouseClicked="#selectDirectory" text="Select Update Folder" GridPane.halignment="CENTER">
             <VBox.margin>
-                <Insets bottom="10.0" />
+<!--                <Insets bottom="10.0" />-->
             </VBox.margin>
         </Button>
         <Button fx:id="updateBtn" disable="true" mnemonicParsing="false" onMouseClicked="#processUpdate" text="Update" GridPane.halignment="CENTER" />
