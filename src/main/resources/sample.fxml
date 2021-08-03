@@ -50,12 +50,12 @@
         </columnConstraints>
 
         <VBox fx:id="updateLinksGrid" disable="true" prefHeight="175.0" prefWidth="267.0" GridPane.columnIndex="0">
-            <TextField fx:id="oldHyperlink" onKeyPressed="#checkUpdateButton" promptText="Old Hyperlink Directory">
+            <TextField fx:id="oldHyperlinkField" onKeyPressed="#checkUpdateButton" promptText="Old Hyperlink Directory">
                 <VBox.margin>
                     <Insets bottom="15.0" />
                 </VBox.margin>
             </TextField>
-            <TextField fx:id="newHyperlink" onKeyPressed="#checkUpdateButton" promptText="New Hyperlink Directory" />
+            <TextField fx:id="newHyperlinkField" onKeyPressed="#checkUpdateButton" promptText="New Hyperlink Directory" />
         </VBox>
 
         <GridPane fx:id="updateLogoGrid" alignment="CENTER" disable="true" GridPane.columnIndex="1">

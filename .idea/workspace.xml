@@ -2,9 +2,44 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_thoughtworks_qdox_qdox_2_0_M8.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_aether_provider_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_artifact_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_core_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_model_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_model_builder_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_plugin_api_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_repository_metadata_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_settings_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_settings_builder_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_plugins_maven_compiler_plugin_3_8_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_shared_maven_shared_incremental_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_shared_maven_shared_utils_3_2_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_classworlds_2_2_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_compiler_api_2_8_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_compiler_javac_2_8_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_compiler_manager_2_8_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_component_annotations_1_5_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_interpolation_1_14.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_java_0_9_10.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_utils_2_0_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_6_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_sonatype_aether_aether_api_1_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_sonatype_aether_aether_impl_1_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_sonatype_aether_aether_spi_1_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_sonatype_aether_aether_util_1_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_sonatype_plexus_plexus_cipher_1_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_sonatype_plexus_plexus_sec_dispatcher_1_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_sonatype_sisu_sisu_guice_noaop_2_1_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_sonatype_sisu_sisu_inject_bean_1_4_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_sonatype_sisu_sisu_inject_plexus_1_4_2.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SpireOffice.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SpireOffice.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/sample/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sample/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/sample.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/sample.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/sample.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sample.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/sample/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sample/Controller.class" afterDir="false" />
     </list>
@@ -232,12 +267,23 @@
       <workItem from="1627308618182" duration="690000" />
       <workItem from="1627391221885" duration="12218000" />
       <workItem from="1627419887536" duration="23701000" />
-      <workItem from="1627904625415" duration="12306000" />
+      <workItem from="1627904625415" duration="13234000" />
+      <workItem from="1627992325510" duration="12406000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
@@ -252,30 +298,38 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="589" y="202" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1626200454358" />
+    <state x="92" y="92" width="1736" height="856" key="DiffContextDialog" timestamp="1628018405534">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="92" y="92" width="1736" height="856" key="DiffContextDialog/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1628018405534" />
     <state x="686" y="322" key="FileChooserDialogImpl" timestamp="1626208611347">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="686" y="322" key="FileChooserDialogImpl/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1626208611347" />
-    <state width="1491" height="183" key="GridCell.Tab.0.bottom" timestamp="1627951176916">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1875" height="183" key="GridCell.Tab.0.bottom" timestamp="1628024782938">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1875" height="183" key="GridCell.Tab.0.bottom/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1627943578187" />
-    <state width="1491" height="183" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1627951176916" />
-    <state width="1491" height="183" key="GridCell.Tab.0.center" timestamp="1627951176916">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1875" height="183" key="GridCell.Tab.0.bottom/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1628024782938" />
+    <state width="1491" height="183" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1627995263356" />
+    <state width="1875" height="183" key="GridCell.Tab.0.center" timestamp="1628024782938">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1875" height="183" key="GridCell.Tab.0.center/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1627943578187" />
-    <state width="1491" height="183" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1627951176916" />
-    <state width="1491" height="183" key="GridCell.Tab.0.left" timestamp="1627951176916">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1875" height="183" key="GridCell.Tab.0.center/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1628024782938" />
+    <state width="1491" height="183" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1627995263356" />
+    <state width="1875" height="183" key="GridCell.Tab.0.left" timestamp="1628024782937">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1875" height="183" key="GridCell.Tab.0.left/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1627943578187" />
-    <state width="1491" height="183" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1627951176916" />
-    <state width="1491" height="183" key="GridCell.Tab.0.right" timestamp="1627951176916">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1875" height="183" key="GridCell.Tab.0.left/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1628024782937" />
+    <state width="1491" height="183" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1627995263355" />
+    <state width="1875" height="183" key="GridCell.Tab.0.right" timestamp="1628024782938">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1875" height="183" key="GridCell.Tab.0.right/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1627943578187" />
-    <state width="1491" height="183" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1627951176916" />
+    <state width="1875" height="183" key="GridCell.Tab.0.right/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1628024782938" />
+    <state width="1491" height="183" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1627995263356" />
+    <state x="632" y="229" key="RollbackChangesDialog" timestamp="1628024659099">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="632" y="229" key="RollbackChangesDialog/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1628024659099" />
     <state x="460" y="155" key="SettingsEditor" timestamp="1626205837735">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

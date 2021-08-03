@@ -444,6 +444,8 @@ public class Controller {
         Label label = new Label();
         label.setText(oldText.getText() + " → "+ newText.getText());
         replacementList.getItems().add(label);
+        oldText.clear();
+        newText.clear();
         checkUpdateButton();
     }
 
