@@ -8,16 +8,15 @@ import com.spire.doc.documents.Paragraph;
 import com.spire.doc.fields.DocPicture;
 import com.spire.doc.fields.Field;
 import com.spire.presentation.*;
+import com.spire.presentation.FileFormat;
 import com.spire.presentation.collections.MasterSlideCollection;
-import com.spire.xls.ExcelPicture;
-import com.spire.xls.HyperLink;
-import com.spire.xls.Workbook;
-import com.spire.xls.Worksheet;
+import com.spire.xls.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
@@ -27,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Controller {
@@ -62,7 +62,7 @@ public class Controller {
     private Button selectTemplateFile;
 
     @FXML
-    private GridPane updateLinksGrid;
+    private VBox updateLinksGrid;
 
     @FXML
     private GridPane updateLogoGrid;
@@ -74,22 +74,16 @@ public class Controller {
     private TextField newHyperlink;
 
     @FXML
-    private CheckBox inheritCheck;
+    private TextField oldText;
 
     @FXML
-    private Label widthLabel;
-
-    @FXML
-    private Spinner<Integer> widthSpinner;
-
-    @FXML
-    private Label heightLabel;
-
-    @FXML
-    private Spinner<Integer> heightSpinner;
+    private TextField newText;
 
     @FXML
     private ImageView imageView;
+
+    @FXML
+    private ListView<Label> replacementList;
 
     @FXML
     private Button selectDirectory;
@@ -105,13 +99,11 @@ public class Controller {
     private List<File> pptFiles;
     private List<File> excelFiles;
 
-    private boolean inheritSize;
-
 
     @FXML
     private void initialize() throws Exception {
 
-        inheritSize = inheritCheck.isSelected();
+//        inheritSize = inheritCheck.isSelected();
         FileChooser.ExtensionFilter jpegFilter = new FileChooser.ExtensionFilter("JPEG (*.JPG;*.JPEG;*JPE)", "*.JPG", "*.JPEG", "*.JPE");
         FileChooser.ExtensionFilter epsFilter = new FileChooser.ExtensionFilter("EPS TIFF Preview (*.EPS)", "*.EPS");
         FileChooser.ExtensionFilter pngFilter = new FileChooser.ExtensionFilter("PMG (*.PNG)", "*.PNG");
@@ -161,11 +153,14 @@ public class Controller {
         updateTemplateBtn.setDisable(true);
         updateLinksBtn.setDisable(true);
         selectDirectory.setDisable(true);
-        widthSpinner.setDisable(true);
-        heightSpinner.setDisable(true);
-        widthLabel.setDisable(true);
-        heightLabel.setDisable(true);
         loadedLabel.setVisible(false);
+
+        // clear replacement list
+        if(!replacementList.getItems().isEmpty()) {
+            replacementList.getItems().clear();
+        }
+        oldText.clear();
+        newText.clear();
     }
 
     private void updateWordFiles(List<File> files) {
@@ -197,9 +192,7 @@ public class Controller {
                                 // check if field is a hyperlink and matches the address to be replaced
                                 if (field.getType().equals(FieldType.Field_Hyperlink) &&
                                         field.getCode().contains(oldHyperlink.getCharacters())) {
-//                                    System.out.print(field.getCode());
                                     field.setCode(getNewHyperlink(field.getCode()));
-//                                    System.out.println(" --> " + field.getCode());
                                 }
                             }
                         }
@@ -218,8 +211,16 @@ public class Controller {
                     updateLogosWord(footer.getParagraphs());
                     updateLogosWord(section.getParagraphs());
                 }
-//                documents.get(i).saveToFile(files.get(i).getAbsolutePath());
             }
+
+
+            if(!replacementList.getItems().isEmpty()) {
+                for(Label label : replacementList.getItems()) {
+                    String[] replace = label.getText().split(" → ");
+                    document.replace(Pattern.compile(replace[0]), replace[1]);
+                }
+            }
+
             String name = saveDirectory.getAbsolutePath() + "/" + files.get(i).getName().replace(".docx", "-test.docx");
             document.saveToFile(name, documents.get(i).getDetectedFormatType());
         }
@@ -244,30 +245,53 @@ public class Controller {
 
             Presentation presentation = presentations.get(i);
 
-            // update PPT Hyperlinks
+            // update PPT Hyperlinks & words
             if (updateLinksBtn.isSelected()) {
                 System.out.println("\tUpdating Hyperlinks");
                 for (Object slide : presentation.getSlides()) {
                     if (slide instanceof ISlide) {
                         for (Object shape : ((ISlide) slide).getShapes()) {
                             if (shape instanceof IShape) {
-                                if (((IShape) shape).getClick() != null) {
+                                if (((IShape) shape).getClick() != null) { //replace hyperlink embedded in image/shape
                                     if (((IShape) shape).getClick().getAddress() != null) {
                                         String hyperlink = ((IShape) shape).getClick().getAddress();
                                         if (hyperlink.contains(oldHyperlink.getCharacters())) {
                                             ((IShape) shape).getClick().setAddress(getNewHyperlink(hyperlink));
+                                        }
+
+                                    }
+                                }
+                                else { // replace hyperlink text and words
+                                    if(shape instanceof IAutoShape) {
+                                        for(Object paragraph : ((IAutoShape) shape).getTextFrame().getParagraphs()) {
+                                            ParagraphEx pe = (ParagraphEx)paragraph;
+                                            for(Object textPortion : pe.getTextRanges()) {
+                                                PortionEx te = (PortionEx) textPortion;
+
+                                                if(te.getClickAction() != null) { // change hyperlink address
+                                                    System.out.println("hyperlink name: "+((IShape) shape).getName());
+                                                    String hyperlink = te.getClickAction().getAddress();
+                                                    if(hyperlink != null && hyperlink.contains(oldHyperlink.getCharacters())) {
+                                                        te.getClickAction().setAddress(getNewHyperlink(hyperlink));
+                                                    }
+                                                }
+
+                                                if(!replacementList.getItems().isEmpty()) { // replace words
+                                                    for(Label label : replacementList.getItems()) {
+                                                        String[] replace = label.getText().split(" → ");
+                                                        if(te.getText().contains(replace[0])) {
+                                                            te.setText(te.getText().replace(replace[0], replace[1]));
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
-                    System.out.println();
                 }
-            }
-
-            // update PPT logos
-            if (updateLogoBtn.isSelected()) {
             }
 
             // update PPT Templates
@@ -313,10 +337,8 @@ public class Controller {
                     // store positions for each shape
                     for (Object shape : slide.getShapes()) {
                         if (shape instanceof IAutoShape) {
-//                            positions.add(((IAutoShape) shape).getTop());
                             positions.add(((IAutoShape) shape).getLeft());
                         } else if (shape instanceof IShape) {
-//                            positions.add(((IShape) shape).getTop());
                             positions.add(((IShape) shape).getLeft());
                         }
                     }
@@ -354,10 +376,12 @@ public class Controller {
 
         for (int i = 0; i < workbooks.size(); i++) {
             Workbook wb = workbooks.get(i);
-            if (updateLinksBtn.isSelected()) {
-                System.out.println("\tUpdating Hyperlinks");
-                for (Object ws : wb.getWorksheets()) {
-                    if (ws instanceof Worksheet) {
+
+            for(Object ws : wb.getWorksheets()) {
+                if(ws instanceof Worksheet) {
+
+                    if(updateLinksBtn.isSelected()) { // update hyperlink
+                        System.out.println("\tUpdating Hyperlinks");
                         for (Object hyperLink : ((Worksheet) ws).getHyperLinks()) {
                             if (hyperLink instanceof HyperLink) {
                                 if (((HyperLink) hyperLink).getAddress().contains(oldHyperlink.getCharacters())) {
@@ -366,12 +390,8 @@ public class Controller {
                             }
                         }
                     }
-                }
-            }
 
-            if (updateLogoBtn.isSelected()) {
-                for (Object ws : wb.getWorksheets()) {
-                    if (ws instanceof Worksheet) {
+                    if(updateLogoBtn.isSelected()) {
                         for (Object picture : ((Worksheet) ws).getPictures()) {
                             if (picture instanceof ExcelPicture) {
                                 if (((ExcelPicture) picture).getAlternativeText().contains("har")) {
@@ -387,8 +407,17 @@ public class Controller {
                             }
                         }
                     }
+
+                    for(Label label : replacementList.getItems()) { // replace words
+                        String[] replace = label.getText().split(" → ");
+                        for(CellRange range : ((Worksheet) ws).findAllString(replace[0], true, true)) {
+                            range.setText(range.getText().replace(replace[0], replace[1]));
+                        }
+                    }
+
                 }
             }
+
             String name = saveDirectory.getAbsolutePath() + "/" + files.get(i).getName().replace(".xlsx", "-test.xlsx");
             wb.saveToFile(name);
         }
@@ -410,6 +439,21 @@ public class Controller {
         }
     }
 
+    @FXML
+    private void addReplaceWord() {
+        Label label = new Label();
+        label.setText(oldText.getText() + " → "+ newText.getText());
+        replacementList.getItems().add(label);
+        checkUpdateButton();
+    }
+
+    @FXML
+    private void removeReplaceWord() {
+        replacementList.getItems().remove(
+                replacementList.getSelectionModel().getSelectedIndex());
+        checkUpdateButton();
+    }
+
     private String getNewHyperlink(String original) {
         return original.replace(oldHyperlink.getText(), newHyperlink.getText());
     }
@@ -417,8 +461,13 @@ public class Controller {
     @FXML
     private void checkUpdateButton() {
         if(!updateLogoBtn.isSelected() && !updateLinksBtn.isSelected() && !updateTemplateBtn.isSelected()) {
-            updateBtn.setDisable(true);
-            selectDirectory.setDisable(true);
+            if(!replacementList.getItems().isEmpty()) {
+                updateBtn.setDisable(false);
+                selectDirectory.setDisable(false);
+            } else {
+                updateBtn.setDisable(true);
+                selectDirectory.setDisable(true);
+            }
         }
         else {
             if(updateLogoBtn.isSelected() && pictureFile != null && updateBtn.isDisabled()) {
@@ -458,15 +507,6 @@ public class Controller {
     private void toggleLogoUpdates() {
         updateLogoGrid.setDisable(!updateLogoBtn.isSelected());
         checkUpdateButton();
-    }
-
-    @FXML
-    private void toggleInherit() {
-        inheritSize = inheritCheck.isSelected();
-        widthLabel.setDisable(inheritSize);
-        widthSpinner.setDisable(inheritSize);
-        heightLabel.setDisable(inheritSize);
-        heightSpinner.setDisable(inheritSize);
     }
 
     @FXML
