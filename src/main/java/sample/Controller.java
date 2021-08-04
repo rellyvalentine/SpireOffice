@@ -15,12 +15,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
+//import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import javax.imageio.ImageIO;
+import javafx.scene.input.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -34,11 +36,11 @@ public class Controller {
     private final FileChooser imageChooser = new FileChooser();
     private final FileChooser templateChooser = new FileChooser();
     private final FileChooser docChooser = new FileChooser();
-    private final DirectoryChooser directoryChooser = new DirectoryChooser();
+//    private final DirectoryChooser directoryChooser = new DirectoryChooser();
 
     private File pictureFile;
     private File templateFile;
-    private File saveDirectory;
+//    private File saveDirectory;
 
     @FXML
     private GridPane leftGrid;
@@ -68,10 +70,10 @@ public class Controller {
     private GridPane updateLogoGrid;
 
     @FXML
-    private TextField oldHyperlink;
+    private TextField oldHyperlinkField;
 
     @FXML
-    private TextField newHyperlink;
+    private TextField newHyperlinkField;
 
     @FXML
     private TextField oldText;
@@ -85,14 +87,17 @@ public class Controller {
     @FXML
     private ListView<Label> replacementList;
 
-    @FXML
-    private Button selectDirectory;
+//    @FXML
+//    private Button selectDirectory;
 
     @FXML
     private Button updateBtn;
 
     @FXML
     private Label updateCompleteLabel;
+
+    @FXML
+    private TextField saveAsLocation;
 
     private List<File> documents = new ArrayList<>();
     private final  List<File> wordFiles = new ArrayList<>();
@@ -124,11 +129,12 @@ public class Controller {
     }
 
     @FXML
-    private void processUpdate() throws Exception {
+    public void processUpdate(MouseEvent mouseEvent) throws Exception {
 
         updateWordFiles(wordFiles);
         updatePowerPointFiles(pptFiles);
         updateExcelFiles(excelFiles);
+//        saveDirectory = new File(saveAsLocation.getText());
 
         updateCompleteLabel.setVisible(true);
         resetGrid();
@@ -152,7 +158,7 @@ public class Controller {
         // disable buttons/labels
         updateTemplateBtn.setDisable(true);
         updateLinksBtn.setDisable(true);
-        selectDirectory.setDisable(true);
+//        selectDirectory.setDisable(true);
         loadedLabel.setVisible(false);
 
         // clear replacement list
@@ -198,7 +204,7 @@ public class Controller {
 
                                 // check if field is a hyperlink and matches the address to be replaced
                                 if (field.getType().equals(FieldType.Field_Hyperlink) &&
-                                        field.getCode().contains(oldHyperlink.getCharacters())) {
+                                        field.getCode().contains(oldHyperlinkField.getCharacters())) {
                                     field.setCode(getNewHyperlink(field.getCode()));
                                 }
                             }
@@ -228,7 +234,8 @@ public class Controller {
                 }
             }
 
-            String name = saveDirectory.getAbsolutePath() + "/" + files.get(i).getName().replace(".docx", "-test.docx");
+//            String name = saveDirectory.getAbsolutePath() + "/" + files.get(i).getName().replace(".docx", "-test.docx");
+            String name = saveAsLocation.getText() + "/" + files.get(i).getName().replace(".docx", "-test.docx");
             document.saveToFile(name, documents.get(i).getDetectedFormatType());
         }
     }
@@ -271,7 +278,7 @@ public class Controller {
                                 if (((IShape) shape).getClick() != null) { //replace hyperlink embedded in image/shape
                                     if (((IShape) shape).getClick().getAddress() != null) {
                                         String hyperlink = ((IShape) shape).getClick().getAddress();
-                                        if (hyperlink.contains(oldHyperlink.getCharacters())) {
+                                        if (hyperlink.contains(oldHyperlinkField.getCharacters())) {
                                             ((IShape) shape).getClick().setAddress(getNewHyperlink(hyperlink));
                                         }
 
@@ -287,7 +294,7 @@ public class Controller {
                                                 if(te.getClickAction() != null) { // change hyperlink address
                                                     System.out.println("hyperlink name: "+((IShape) shape).getName());
                                                     String hyperlink = te.getClickAction().getAddress();
-                                                    if(hyperlink != null && hyperlink.contains(oldHyperlink.getCharacters())) {
+                                                    if(hyperlink != null && hyperlink.contains(oldHyperlinkField.getCharacters())) {
                                                         te.getClickAction().setAddress(getNewHyperlink(hyperlink));
                                                     }
                                                 }
@@ -369,7 +376,8 @@ public class Controller {
                 }
             }
 
-            String name = saveDirectory.getAbsolutePath() + "/" + files.get(i).getName().replace(".pptx", "-test.pptx");
+//            String name = saveDirectory.getAbsolutePath() + "/" + files.get(i).getName().replace(".pptx", "-test.pptx");
+            String name = saveAsLocation.getText() + "/" + files.get(i).getName().replace(".pptx", "-test.pptx");
             presentation.saveToFile(name, com.spire.presentation.FileFormat.PPTX_2013);
         }
     }
@@ -409,7 +417,7 @@ public class Controller {
                         System.out.println("\tUpdating Hyperlinks");
                         for (Object hyperLink : ((Worksheet) ws).getHyperLinks()) {
                             if (hyperLink instanceof HyperLink) {
-                                if (((HyperLink) hyperLink).getAddress().contains(oldHyperlink.getCharacters())) {
+                                if (((HyperLink) hyperLink).getAddress().contains(oldHyperlinkField.getCharacters())) {
                                     ((HyperLink) hyperLink).setAddress(getNewHyperlink(((HyperLink) hyperLink).getAddress()));
                                 }
                             }
@@ -443,7 +451,8 @@ public class Controller {
                 }
             }
 
-            String name = saveDirectory.getAbsolutePath() + "/" + files.get(i).getName().replace(".xlsx", "-test.xlsx");
+//            String name = saveDirectory.getAbsolutePath() + "/" + files.get(i).getName().replace(".xlsx", "-test.xlsx");
+            String name = saveAsLocation.getText() + "/" + files.get(i).getName().replace(".xlsx", "-test.xlsx");
             wb.saveToFile(name);
         }
     }
@@ -465,7 +474,7 @@ public class Controller {
     }
 
     @FXML
-    private void addReplaceWord() {
+    public void addReplaceWord(MouseEvent mouseEvent) {
         Label label = new Label();
         label.setText(oldText.getText() + " → "+ newText.getText());
         replacementList.getItems().add(label);
@@ -475,69 +484,80 @@ public class Controller {
     }
 
     @FXML
-    private void removeReplaceWord() {
+    public void removeReplaceWord(MouseEvent mouseEvent) {
         replacementList.getItems().remove(
                 replacementList.getSelectionModel().getSelectedIndex());
         checkUpdateButton();
     }
 
     private String getNewHyperlink(String original) {
-        return original.replace(oldHyperlink.getText(), newHyperlink.getText());
+        return original.replace(oldHyperlinkField.getText(), newHyperlinkField.getText());
     }
 
-    @FXML
+
     private void checkUpdateButton() {
         if(!updateLogoBtn.isSelected() && !updateLinksBtn.isSelected() && !updateTemplateBtn.isSelected()) {
             if(!replacementList.getItems().isEmpty()) {
                 updateBtn.setDisable(false);
-                selectDirectory.setDisable(false);
+//                selectDirectory.setDisable(false);
             } else {
                 updateBtn.setDisable(true);
-                selectDirectory.setDisable(true);
+//                selectDirectory.setDisable(true);
             }
         }
         else {
             if(updateLogoBtn.isSelected() && pictureFile != null && updateBtn.isDisabled()) {
                 updateBtn.setDisable(false);
-                selectDirectory.setDisable(false);
+//                selectDirectory.setDisable(false);
             }
             if(updateTemplateBtn.isSelected() && templateFile != null) {
                 updateBtn.setDisable(false);
-                selectDirectory.setDisable(false);
+//                selectDirectory.setDisable(false);
             }
             if(updateLinksBtn.isSelected()) {
-                if(!newHyperlink.getText().equals("") && !oldHyperlink.getText().equals("")) {
+                if(!newHyperlinkField.getText().equals("") && !oldHyperlinkField.getText().equals("")) {
                     updateBtn.setDisable(false);
-                    selectDirectory.setDisable(false);
+//                    selectDirectory.setDisable(false);
                 }
                 else {
                     updateBtn.setDisable(true);
-                    selectDirectory.setDisable(true);
+//                    selectDirectory.setDisable(true);
                 }
             }
         }
     }
 
     @FXML
-    private void toggleTemplateBtn() {
+    public void oldHyperlinkFieldUpdate(KeyEvent keyEvent) {
+        checkUpdateButton();
+    }
+
+    @FXML
+    public void newHyperlinkFieldUpdate(KeyEvent keyEvent) {
+        checkUpdateButton();
+    }
+
+    @FXML
+    public void toggleTemplateBtn(MouseEvent mouseEvent) {
         selectTemplateFile.setDisable(!updateTemplateBtn.isSelected());
         checkUpdateButton();
     }
 
     @FXML
-    private void toggleLinksUpdates() {
+    public void toggleLinksUpdates(MouseEvent mouseEvent) {
         updateLinksGrid.setDisable(!updateLinksBtn.isSelected());
         checkUpdateButton();
     }
 
     @FXML
-    private void toggleLogoUpdates() {
+    public void toggleLogoUpdates(MouseEvent mouseEvent) {
         updateLogoGrid.setDisable(!updateLogoBtn.isSelected());
         checkUpdateButton();
     }
 
+
     @FXML
-    private void loadDocuments() {
+    public void loadDocuments(MouseEvent mouseEvent) {
         documents = docChooser.showOpenMultipleDialog(updateLinksGrid.getScene().getWindow());
         if (!documents.isEmpty()) {
             leftGrid.setDisable(false);
@@ -580,26 +600,25 @@ public class Controller {
         }
     }
 
-    @FXML
-    private void selectDirectory() {
-        saveDirectory = directoryChooser.showDialog(updateLinksGrid.getScene().getWindow());
-        System.out.println("Directory Selected: "+saveDirectory.getAbsolutePath());
-    }
+//    @FXML
+//    public void selectDirectory(MouseEvent mouseEvent) {
+////        saveDirectory = directoryChooser.showDialog(updateLinksGrid.getScene().getWindow());
+//        System.out.println("Directory Selected: "+saveDirectory.getAbsolutePath());
+//    }
 
     @FXML
-    private void loadTemplate() {
+    public void loadTemplate(MouseEvent mouseEvent) {
         templateFile = templateChooser.showOpenDialog(updateLinksGrid.getScene().getWindow());
         checkUpdateButton();
     }
 
     @FXML
-    private void loadPicture() {
+    public void loadPicture(MouseEvent mouseEvent) {
         pictureFile = imageChooser.showOpenDialog(updateLogoGrid.getScene().getWindow());
         Image previewImage = new Image("file:" + pictureFile.getAbsolutePath());
         imageView.setImage(previewImage);
         checkUpdateButton();
 
     }
-
 
 }

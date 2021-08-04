@@ -63,7 +63,7 @@
             <artifactId>jfxrt</artifactId>
             <scope>system</scope>
             <version>1.7.0_25</version>
-            <systemPath>C:\Program Files\Java\jdk1.7.0_25\jre\lib\jfxrt.jar</systemPath>
+            <systemPath>C:\Program Files\Oracle\JavaFX 2.0 Runtime\lib\jfxrt.jar</systemPath>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>org.openjfx</groupId>-->
