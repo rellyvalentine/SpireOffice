@@ -12,14 +12,15 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="javafx-swt" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:17-ea+14" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:win:17-ea+14" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:12.0.1" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:win:12.0.1" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:12.0.1" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:win:12.0.1" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:12.0.1" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:win:12.0.1" level="project" />
+    <orderEntry type="module-library">
+      <library name="Maven: javafx:jfxrt:1.7.0_80">
+        <CLASSES>
+          <root url="jar://C:/Program Files/Java/jdk1.7.0_80/jre/lib/jfxrt.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="Maven: jakarta.xml.bind:jakarta.xml.bind-api:2.3.2" level="project" />
     <orderEntry type="library" name="Maven: jakarta.activation:jakarta.activation-api:1.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jaxb:jaxb-runtime:2.3.2" level="project" />

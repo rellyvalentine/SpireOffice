@@ -1,4 +1,0 @@
---patch-module
-SpireOffice=_
---add-reads
-SpireOffice=ALL-UNNAMED
