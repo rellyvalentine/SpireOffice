@@ -13,9 +13,9 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="javafx-swt" level="project" />
     <orderEntry type="module-library">
-      <library name="Maven: javafx:jfxrt:1.7.0_80">
+      <library name="Maven: javafx:jfxrt:1.7.0_25">
         <CLASSES>
-          <root url="jar://C:/Program Files/Java/jdk1.7.0_80/jre/lib/jfxrt.jar!/" />
+          <root url="jar://C:/Program Files/Java/jdk1.7.0_25/jre/lib/jfxrt.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

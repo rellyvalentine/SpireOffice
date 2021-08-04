@@ -62,8 +62,8 @@
             <groupId>javafx</groupId>
             <artifactId>jfxrt</artifactId>
             <scope>system</scope>
-            <version>1.7.0_80</version>
-            <systemPath>C:\Program Files\Java\jdk1.7.0_80\jre\lib\jfxrt.jar</systemPath>
+            <version>1.7.0_25</version>
+            <systemPath>C:\Program Files\Java\jdk1.7.0_25\jre\lib\jfxrt.jar</systemPath>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>org.openjfx</groupId>-->
