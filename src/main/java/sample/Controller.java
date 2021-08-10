@@ -1,26 +1,98 @@
 package sample;
 
+import sample.components.HintTextField;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class Controller extends JFrame {
     public Controller() {
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(4, 1));
-        JLabel l1, l2, l3, l4;
-        l1 = new JLabel("top row");
-        l2 = new JLabel("middle row");
-        l3 = new JLabel("l3");
-        l4 = new JLabel("l4");
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
 
-        panel.add(l1);
-        panel.add(l2);
-        panel.add(l3);
-        panel.add(l4);
+        // add select files button
+        JButton selectFilesButton = new JButton("Select Files");
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        constraints.weightx = 0.25;
+        constraints.weighty = 0.0;
+//        constraints.insets = new Insets(0, 0, 10, 0);
+        panel.add(selectFilesButton, constraints);
+
+        JToggleButton updateLinksBtn = new JToggleButton("Update Hyperlinks");
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+//        constraints.insets = new Insets(0, 0, 10, 30);
+        panel.add(updateLinksBtn, constraints);
+
+        JToggleButton updateLogoBtn = new JToggleButton("Update Logos");
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+
+        panel.add(updateLogoBtn, constraints);
+
+        JToggleButton updateTemplateBtn = new JToggleButton("Update Template");
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 2;
+        constraints.gridy = 1;
+//        constraints.insets = new Insets(0, 30, 10, 0);
+        panel.add(updateTemplateBtn, constraints);
+
+        JTextField oldHyperlinkField = new HintTextField("Old Hyperlink Directory");
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+//        constraints.insets = new Insets(0, 0, 10, 0);
+        panel.add(oldHyperlinkField, constraints);
+
+        JTextField newHyperLinkField = new HintTextField("New Hyperlink Directory");
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+//        constraints.insets = new Insets(0, 0, 0, 0);
+        panel.add(newHyperLinkField, constraints);
+
+        JButton selectTemplateFile = new JButton("Select File");
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 2;
+        constraints.gridy = 2;
+        panel.add(selectTemplateFile, constraints);
+
+        JLabel replaceWordsLabel = new JLabel("Replace Words");
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 4;
+        panel.add(replaceWordsLabel, constraints);
+
+        HintTextField oldText = new HintTextField("Old Text");
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 5;
+        panel.add(oldText, constraints);
+
+        HintTextField newText = new HintTextField("New Text");
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 6;
+        panel.add(newText, constraints);
+
+        JButton addReplacementButton = new JButton("Add Replacement");
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 7;
+        panel.add(addReplacementButton, constraints);
+
+
+
 
         add(panel);
         setVisible(true);
         this.setSize(800, 700);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
 }
