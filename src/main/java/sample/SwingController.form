@@ -3,9 +3,12 @@
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="500" height="411"/>
+      <xy x="20" y="20" width="800" height="700"/>
     </constraints>
-    <properties/>
+    <properties>
+      <minimumSize width="800" height="700"/>
+      <preferredSize width="800" height="700"/>
+    </properties>
     <border type="none"/>
     <children>
       <grid id="370f0" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -14,33 +17,40 @@
           <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
-        <border type="none"/>
+        <border type="etched" title="Load Files">
+          <font size="14"/>
+        </border>
         <children>
+          <component id="5cfc1" class="javax.swing.JLabel" binding="filesLoadedLabel">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font size="14"/>
+              <foreground color="-16724736"/>
+              <text value="Files Successfully Loaded"/>
+              <visible value="false"/>
+            </properties>
+          </component>
           <component id="2051f" class="javax.swing.JButton" binding="selectFilesBtn">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Select Files"/>
             </properties>
           </component>
-          <component id="1e8c5" class="javax.swing.JLabel">
-            <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Successfully loaded"/>
-            </properties>
-          </component>
         </children>
       </grid>
-      <grid id="da231" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="da231" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
-        <border type="none"/>
+        <border type="etched" title="Update Options">
+          <font size="14"/>
+        </border>
         <children>
           <component id="1ffd7" class="javax.swing.JToggleButton" binding="updateLinksBtn">
             <constraints>
@@ -50,40 +60,20 @@
               <text value="Update Hyperlinks"/>
             </properties>
           </component>
-        </children>
-      </grid>
-      <grid id="58922" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
-        <constraints>
-          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties/>
-        <border type="none"/>
-        <children>
-          <component id="9e1e" class="javax.swing.JToggleButton" binding="updateTemplatesBtn">
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Update Templates"/>
-            </properties>
-          </component>
-        </children>
-      </grid>
-      <grid id="99352" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
-        <constraints>
-          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties/>
-        <border type="none"/>
-        <children>
           <component id="e1222" class="javax.swing.JToggleButton" binding="updateLogoBtn">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Update Logos"/>
+            </properties>
+          </component>
+          <component id="9e1e" class="javax.swing.JToggleButton" binding="updateTemplatesBtn">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Update Templates"/>
             </properties>
           </component>
         </children>
@@ -96,7 +86,9 @@
         <properties>
           <enabled value="true"/>
         </properties>
-        <border type="none"/>
+        <border type="etched" title="Update Hyperlinks">
+          <font size="14"/>
+        </border>
         <children>
           <component id="8d915" class="javax.swing.JTextField" binding="oldHyperlinkField" custom-create="true">
             <constraints>
@@ -121,8 +113,12 @@
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
-        <properties/>
-        <border type="none"/>
+        <properties>
+          <font size="14"/>
+        </properties>
+        <border type="etched" title="Update Logos">
+          <font size="14"/>
+        </border>
         <children>
           <component id="5758d" class="javax.swing.JLabel">
             <constraints>
@@ -132,7 +128,7 @@
               <text value="click to select image"/>
             </properties>
           </component>
-          <grid id="12b15" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="12b15" binding="imageView" custom-create="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -149,7 +145,9 @@
           <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
-        <border type="none"/>
+        <border type="etched" title="Update PowerPoint Template">
+          <font size="14"/>
+        </border>
         <children>
           <component id="bcc2b" class="javax.swing.JButton" binding="selectTemplateFileBtn">
             <constraints>
@@ -169,13 +167,15 @@
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="d9c0f" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="d9c0f" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
-            <border type="none" title="Replace Words"/>
+            <border type="etched" title="Replace Words">
+              <font size="14"/>
+            </border>
             <children>
               <component id="54824" class="javax.swing.JTextField" binding="oldTextField" custom-create="true">
                 <constraints>
@@ -185,21 +185,21 @@
                 </constraints>
                 <properties/>
               </component>
-              <component id="22515" class="javax.swing.JTextField" binding="newTextField" custom-create="true">
-                <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                </constraints>
-                <properties/>
-              </component>
               <component id="7b61d" class="javax.swing.JButton" binding="addReplacementBtn">
                 <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Add Replacement"/>
                 </properties>
+              </component>
+              <component id="22515" class="javax.swing.JTextField" binding="newTextField" custom-create="true">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
               </component>
             </children>
           </grid>
@@ -209,7 +209,9 @@
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
-            <border type="none" title="Replacement List"/>
+            <border type="etched" title="Replacement List">
+              <font size="14"/>
+            </border>
             <children>
               <component id="b2e47" class="javax.swing.JButton" binding="removeReplacementBtn">
                 <constraints>
@@ -228,7 +230,9 @@
                 <children>
                   <component id="2a933" class="javax.swing.JList" binding="replacementList" custom-create="true">
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <font size="14"/>
+                    </properties>
                   </component>
                 </children>
               </scrollpane>
@@ -236,17 +240,19 @@
           </grid>
         </children>
       </grid>
-      <grid id="8d123" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="8d123" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="4" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
-        <border type="none"/>
+        <border type="etched" title="Perform Update">
+          <font size="14"/>
+        </border>
         <children>
           <component id="e2da6" class="javax.swing.JButton" binding="selectDirectoryBtn">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Select Update Directory"/>
@@ -254,10 +260,22 @@
           </component>
           <component id="56c27" class="javax.swing.JButton" binding="updateBtn">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Update"/>
+            </properties>
+          </component>
+          <component id="2d753" class="javax.swing.JLabel" binding="updateCompleteLabel">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font size="14"/>
+              <foreground color="-16724736"/>
+              <horizontalAlignment value="2"/>
+              <text value="Update Complete! Select Files to continue"/>
+              <visible value="false"/>
             </properties>
           </component>
         </children>
