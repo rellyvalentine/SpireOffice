@@ -252,8 +252,6 @@ public class SwingController {
         oldTextField.setText("Old Text");
         newTextField.setText("New Text");
 
-        imageView.removeAll();
-
         replacementListModel.removeAllElements();
     }
 
@@ -528,6 +526,7 @@ public class SwingController {
                         // not sure why but image literally doesn't display unless i do this
                         updateCompleteLabel.setVisible(true);
                         updateCompleteLabel.setVisible(false);
+
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
