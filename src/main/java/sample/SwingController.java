@@ -379,7 +379,7 @@ public class SwingController {
                     document.replace(Pattern.compile(replace[0]), replace[1]);
                 }
             }
-            String name = saveDirectory.getAbsolutePath() + "/" + files.get(i).getName().replace(".docx", "-test.docx");
+            String name = saveDirectory.getAbsolutePath() + "/" + files.get(i).getName().replace(".docx", ".docx");
             document.saveToFile(name, documents.get(i).getDetectedFormatType());
         }
     }
@@ -520,7 +520,7 @@ public class SwingController {
                 }
             }
 
-            String name = saveDirectory.getAbsolutePath() + "/" + files.get(i).getName().replace(".pptx", "-test.pptx");
+            String name = saveDirectory.getAbsolutePath() + "/" + files.get(i).getName().replace(".pptx", ".pptx");
             presentation.saveToFile(name, com.spire.presentation.FileFormat.PPTX_2013);
         }
     }
@@ -585,7 +585,7 @@ public class SwingController {
                     }
                 }
             }
-            String name = saveDirectory.getAbsolutePath() + "/" + files.get(i).getName().replace(".xlsx", "-test.xlsx");
+            String name = saveDirectory.getAbsolutePath() + "/" + files.get(i).getName().replace(".xlsx", ".xlsx");
             wb.saveToFile(name);
         }
     }
