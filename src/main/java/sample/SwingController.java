@@ -8,7 +8,6 @@ import com.spire.doc.documents.Paragraph;
 import com.spire.doc.fields.DocPicture;
 import com.spire.doc.fields.Field;
 import com.spire.presentation.*;
-import com.spire.presentation.FileFormat;
 import com.spire.presentation.collections.MasterSlideCollection;
 import com.spire.xls.*;
 import sample.components.HintTextField;
@@ -49,6 +48,8 @@ public class SwingController {
     private JLabel filesLoadedLabel;
     private JPanel imageView;
     private JLabel updateCompleteLabel;
+    private JLabel templateLoadedLabel;
+    private JLabel directoryLoadedLabel;
 
 
     private List<File> documents = new ArrayList<>();
@@ -139,9 +140,21 @@ public class SwingController {
             folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
             int result = folderChooser.showOpenDialog(null);
-            if(result == JFileChooser.APPROVE_OPTION) {
-                saveDirectory = folderChooser.getSelectedFile();
+            if(result == JFileChooser.APPROVE_OPTION || saveDirectory != null) {
+
+                if(folderChooser.getSelectedFile() != null) {
+                    saveDirectory = folderChooser.getSelectedFile();
+                    directoryLoadedLabel.setText("Saving to: "+saveDirectory);
+                    directoryLoadedLabel.setForeground(new Color(0, 205, 0));
+                } else if (saveDirectory != null) {
+                    directoryLoadedLabel.setText("Saving to: "+saveDirectory);
+                    directoryLoadedLabel.setForeground(new Color(0, 205, 0));
+                }
+            } else {
+                directoryLoadedLabel.setText("Invalid Directory");
+                directoryLoadedLabel.setForeground(new Color(205, 0, 0));
             }
+            directoryLoadedLabel.setVisible(true);
         }
     }
 
@@ -156,9 +169,23 @@ public class SwingController {
             fileChooser.setAcceptAllFileFilterUsed(false);
 
             int result = fileChooser.showOpenDialog(null);
-            if(result == JFileChooser.APPROVE_OPTION) {
-                templateFile = fileChooser.getSelectedFile();
+            if(result == JFileChooser.APPROVE_OPTION || templateFile != null) {
+                if(fileChooser.getSelectedFile() != null) {
+                    templateFile = fileChooser.getSelectedFile();
+                    templateLoadedLabel.setText("Template Loaded");
+                    templateLoadedLabel.setForeground(new Color(0, 205, 0));
+                }
+                else if(templateFile != null) {
+                    filesLoadedLabel.setText("Files Loaded");
+                    filesLoadedLabel.setForeground(new Color(0, 205, 0));
+                    filesLoadedLabel.setVisible(true);
+                }
+
+            } else {
+                templateLoadedLabel.setText("Template Not Loaded");
+                templateLoadedLabel.setForeground(new Color(205, 0, 0));
             }
+            templateLoadedLabel.setVisible(true);
         }
     }
 
@@ -175,26 +202,39 @@ public class SwingController {
             fileChooser.setAcceptAllFileFilterUsed(false);
 
             int result = fileChooser.showOpenDialog(null);
-            if(result == JFileChooser.APPROVE_OPTION) {
-                documents.addAll(Arrays.asList(fileChooser.getSelectedFiles()));
-                for (File document : documents) {
-                    if(document.getName().contains(".doc")) {
-                        wordFiles.add(document);
+            System.out.println(result);
+            if(result == JFileChooser.APPROVE_OPTION || !documents.isEmpty()) {
+                if(fileChooser.getSelectedFiles() != null) {
+                    filesLoadedLabel.setText("Files Loaded");
+                    filesLoadedLabel.setForeground(new Color(0, 205, 0));
+                    filesLoadedLabel.setVisible(true);
+                    documents.addAll(Arrays.asList(fileChooser.getSelectedFiles()));
+                    for (File document : documents) {
+                        if(document.getName().contains(".doc")) {
+                            wordFiles.add(document);
+                        }
                     }
-                }
-                for(File document : documents) {
-                    if(document.getName().contains(".ppt")) {
-                        pptFiles.add(document);
+                    for(File document : documents) {
+                        if(document.getName().contains(".ppt")) {
+                            pptFiles.add(document);
+                        }
                     }
-                }
-                for(File document : documents) {
-                    if(document.getName().contains(".x")) {
-                        excelFiles.add(document);
+                    for(File document : documents) {
+                        if(document.getName().contains(".x")) {
+                            excelFiles.add(document);
+                        }
                     }
+                } else if(!documents.isEmpty()) {
+                    filesLoadedLabel.setText("Files Loaded");
+                    filesLoadedLabel.setForeground(new Color(0, 205, 0));
+                    filesLoadedLabel.setVisible(true);
                 }
-                updateCompleteLabel.setVisible(false);
+            } else {
+                filesLoadedLabel.setText("Files Not Loaded");
+                filesLoadedLabel.setForeground(new Color(205, 0, 0));
+                filesLoadedLabel.setVisible(true);
             }
-            filesLoadedLabel.setVisible(true);
+            updateCompleteLabel.setVisible(false);
         }
     }
 
@@ -215,7 +255,9 @@ public class SwingController {
     public class removeReplacementListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            replacementListModel.remove(replacementList.getSelectedIndex());
+            if(!replacementListModel.isEmpty()) {
+                replacementListModel.remove(replacementList.getSelectedIndex());
+            }
         }
     }
 
@@ -232,16 +274,32 @@ public class SwingController {
     /* ============ IMPLEMENTATION ============*/
 
     public void processUpdate() throws Exception {
-        updateWordFiles(wordFiles);
-        updatePowerPointFiles(pptFiles);
-        updateExcelFiles(excelFiles);
-        resetDisplay();
+        if(saveDirectory == null) {
+            directoryLoadedLabel.setText("Please Select a Directory to Save Files");
+            directoryLoadedLabel.setForeground(new Color(205, 0, 0));
+            directoryLoadedLabel.setVisible(true);
+        }
+        if(!documents.isEmpty() && (updateLinksBtn.isSelected() || updateLogoBtn.isSelected() ||
+                (!pptFiles.isEmpty() && updateTemplatesBtn.isSelected())) && saveDirectory != null) {
+            updateWordFiles(wordFiles);
+            updatePowerPointFiles(pptFiles);
+            updateExcelFiles(excelFiles);
+            updateCompleteLabel.setText("Update Complete! Select Files to Continue");
+            updateCompleteLabel.setForeground(new Color(0, 205, 0));
+            resetDisplay();
+        } else {
+            updateCompleteLabel.setText("Update Not Performed");
+            updateCompleteLabel.setForeground(new Color(205, 0, 0));
+        }
         updateCompleteLabel.setVisible(true);
 
     }
 
     private void resetDisplay() {
         filesLoadedLabel.setVisible(false);
+        templateLoadedLabel.setVisible(false);
+        updateCompleteLabel.setVisible(false);
+        directoryLoadedLabel.setVisible(false);
 
         updateLinksBtn.setSelected(false);
         updateLogoBtn.setSelected(false);
@@ -252,7 +310,15 @@ public class SwingController {
         oldTextField.setText("Old Text");
         newTextField.setText("New Text");
 
+        pictureFile = null;
+        templateFile = null;
+        saveDirectory = null;
+        documents.clear();
+        wordFiles.clear();
+        pptFiles.clear();
+        excelFiles.clear();
         replacementListModel.removeAllElements();
+
     }
 
     private void updateWordFiles(List<File> files) {
@@ -386,11 +452,20 @@ public class SwingController {
                 }
             }
 
+
             // update PPT Templates
             if (updateTemplatesBtn.isSelected() && templateFile != null) {
                 System.out.println("\tUpdating Templates...");
                 Presentation template = new Presentation();
                 template.loadFromFile(templateFile.getAbsolutePath());
+                if(presentation.getSlideSize().getType() != template.getSlideSize().getType()) {
+                    // presentation and template are different orientations
+                    if(presentation.getSlideSize().getType() == SlideSizeType.SCREEN_4_X_3) {
+                        template.loadFromFile(templateFile.getAbsolutePath().replace("16x9", "4x3"));
+                    } else {
+                        template.loadFromFile(templateFile.getAbsolutePath().replace("4x3", "16x9"));
+                    }
+                }
                 MasterSlideCollection masterSlides = presentation.getMasters();
                 masterSlides.appendSlide(template.getMasters().get(0));
 
